@@ -1,0 +1,14 @@
+<!-- 渲染表单 -->
+{% extends 'base.html' %}
+
+<!-- 自定义模块 -->
+{% block page_content %}
+    {% for m in get_flashed_messages() %}
+        <div class="alert alert-danger" role="alert">
+            {{m}}
+        </div>
+    {% endfor %}
+    {% import 'bootstrap/wtf.html' as wtf %}
+    {{ wtf.quick_form(form) }}
+
+{% endblock %}

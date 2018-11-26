@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block page_content %}
+<h2><small>欢迎!</small>&nbsp;&nbsp;{{current_user.name}}</h2>
+{% endblock %}
+
+{% block page_content1 %}
+
+    {% for user in users %}
+    <div class="alert alert-success" role="alert">
+            我的昵称：{{user.name}}
+            <a class="btn badge"  style="color:#5628ff">粉丝{{ user.followers.count() }}</a><br>
+            邮箱：{{user.email}}<br>
+            签名：{{user.about_me}}
+    </div>
+
+    {% endfor %}
+{% endblock %}

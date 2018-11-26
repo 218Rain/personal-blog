@@ -1,0 +1,70 @@
+<!--在app/templates下找base.html-->
+{% import "bootstrap/wtf.html" as wtf %}
+{% extends 'base.html' %}
+
+{% block page_content%}
+    <h2><small>Dear</small>&nbsp;&nbsp;{{current_user.name}}</h2>
+    <a href="{{url_for('main.post_news')}}" class="btn btn-default">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+    </a>
+{% endblock %}
+
+{% block page_content1 %}
+    <div class="page-header">
+        <!-- 诗词题目 -->
+        <font size="4" color="#191970" style="margin-right: 300px;">{{news.title}}</font>
+        <!-- 发表时间 -->
+        <br><font size="3" color="black" style="float:right">{{moment(news.timestamp).fromNow()}}</font>
+        <font size="3" color="#dc143c" style="margin-right: 30px;">
+                <a href="{{url_for('main.delete_news', nid = news.id)}}" style="float:right; width:100px">
+                    删除
+                </a>
+        </font>
+        <!-- 发表用户 -->
+        <font size="3" color="black" style="margin-right: 100px;">
+            <a href="{{url_for('main.user_info', id = news.user.id)}}" style="float:right; width:100px">
+                {{news.user.name}}
+            </a>
+        </font>
+        <!-- 文章诗词 -->
+        <br><font size="3" color="black">{{news.body}}</font>
+        <br><br><font size="3" color="black" style="margin-left: 0px;">
+            <a href = "{{ url_for('main.news',nid = news.id,has_form = True)}}">
+                 评论
+            </a>
+        </font>
+        <font size="3" color="black" style="margin-left: 30px;">
+            <a href = "{{ url_for('main.news',nid = news.id)}}">
+                 收起
+            </a>
+        </font>
+        {% if has_comment == "True" %}
+            {{ wtf.quick_form(form) }}
+        {% endif%}
+
+    </div>
+    {% for news in comment %}
+        <div class="alert alert-warning" role="alert">
+            <font size="3" color="#191970" style="margin-right: 300px;">
+                {{news.title}}&nbsp;&nbsp;
+
+                {{news}}楼
+                <a href="{{url_for('main.delete_comment', cid = news.id)}}" style="float:right">删除评论</a>
+                <!-- 发表时间 -->
+                <font size="3" color="black" style="float:right; width:100px">{{moment(news.timestamp).fromNow()}}</font>
+            </font>
+            <!-- 评论内容 -->
+            <font size="3" color="black">
+                <br>
+                评论：{{news.body[:100]}}
+            </font>
+        </div>
+
+    {% endfor %}
+
+
+<!--<div class="alert alert-success" role="alert">1</div>-->
+<!--<div class="alert alert-info" role="alert">2</div>-->
+<!--<div class="alert alert-warning" role="alert">3</div>-->
+<!--<div class="alert alert-danger" role="alert">4</div>-->
+{% endblock %}
